@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iotconnect.miband.dao.ClientRepository;
 import com.iotconnect.miband.dao.HeartbeatRepository;
+import com.iotconnect.miband.dao.TemperatureRepository;
+
 import com.iotconnect.miband.models.Client;
 import com.iotconnect.miband.models.Heartbeat;
+import com.iotconnect.miband.models.Temperature;
 import java.util.logging.Logger;
 
 @Transactional
@@ -20,10 +23,12 @@ public class ClientServiceImpl implements IClientService{
 	
 	private ClientRepository  clientRepository;
 	private HeartbeatRepository heartbeatRepository;
+        private TemperatureRepository temperatureRepository; 
 	
-	public ClientServiceImpl(ClientRepository cr , HeartbeatRepository hbr) {
+	public ClientServiceImpl(ClientRepository cr , HeartbeatRepository hbr,TemperatureRepository temperatureRepository ) {
 		this.clientRepository = cr;
 		this.heartbeatRepository = hbr;
+                this.temperatureRepository = temperatureRepository;
 	}
 
 	@Override
@@ -102,10 +107,25 @@ public class ClientServiceImpl implements IClientService{
 		}
 		return null;
 	}
+        
+        
+        @Override
+	public List<Temperature> getTemperaturesByClient(Long id , Integer pageNo, Integer pageSize, String sortBy) {
+		if(id != null) {
+			Client c = clientRepository.findById(id).get();
+			if(c != null) {
+				 Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy).descending());
+				return temperatureRepository.findByClient(c, paging);
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public Client getClientById(Long id) {
-		return clientRepository.findById(id).get();
+                Client c = clientRepository.findById(id).get();
+                
+		return c;
 	}
 
 }

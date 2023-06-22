@@ -41,6 +41,17 @@ public class Client {
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.LAZY )
 	private List<Heartbeat> heartbeats = new ArrayList<>();
 	
+        @JsonIgnore
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.LAZY )
+	private List<Temperature> temperatures = new ArrayList<>();
+        
+        public void addTemperature(Temperature temperature) {
+		temperatures.add(temperature);
+		temperature.setClient(this);
+    }
+ 
+        
+        
 	public void addHeartbeat(Heartbeat heartbeat) {
 		heartbeats.add(heartbeat);
 		heartbeat.setClient(this);
@@ -138,6 +149,10 @@ public class Client {
 
 	public List<Heartbeat> getHeartbeats() {
 		return heartbeats;
+	}
+        
+        public List<Temperature> getTemperatures() {
+		return temperatures;
 	}
 
 	public void setHeartbeats(List<Heartbeat> heartbeats) {

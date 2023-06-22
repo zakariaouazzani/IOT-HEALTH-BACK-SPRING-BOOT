@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.iotconnect.miband.models.Client;
 import com.iotconnect.miband.models.Heartbeat;
+import com.iotconnect.miband.models.Temperature;
 
 public interface IClientService {
 
@@ -20,6 +21,7 @@ public interface IClientService {
 	List<Client> getAll();
 
 	List<Heartbeat> getHeartbeatsByClient(Long id ,Integer pageNo, Integer pageSize, String sortBy);
+	List<Temperature> getTemperaturesByClient(Long id ,Integer pageNo, Integer pageSize, String sortBy);
 
 	Client getClientById(Long id);
         
