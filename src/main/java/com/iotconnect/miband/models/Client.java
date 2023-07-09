@@ -36,6 +36,16 @@ public class Client {
 	private String mail;
         
         private String password;
+        
+        private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.LAZY )
